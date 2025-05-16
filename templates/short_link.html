@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+    <title>Shortened URL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            padding: 2.5rem 2rem;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.18);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #4f3ca7;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .short-link {
+            display: inline-block;
+            background: #f5f6fa;
+            color: #4f3ca7;
+            font-size: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+        .short-link:hover {
+            background: #4f3ca7;
+            color: #fff;
+        }
+        .copy-btn {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover {
+            background: #4f3ca7;
+        }
+        .copied-msg {
+            color: #27ae60;
+            margin-top: 0.7rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Shortened URL</h1>
+        <a class="short-link" href="{{ url_for('redirect_to_url', short_url=short_url) }}" target="_blank" id="shortUrl">
+            {{ request.host_url }}{{ short_url }}
+        </a>
+        <br>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy Link</button>
+        <div class="copied-msg" id="copiedMsg">Copied!</div>
+    </div>
+    <script>
+        function copyToClipboard() {
+            const url = document.getElementById('shortUrl').textContent;
+            navigator.clipboard.writeText(url).then(function() {
+                document.getElementById('copiedMsg').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('copiedMsg').style.display = 'none';
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>
